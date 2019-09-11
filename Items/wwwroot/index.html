@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body>
+
+    <form>
+        <div class="form-group">
+            <label for="code">Code</label>
+            <input type="text" class="form-control" id="code">
+        </div>
+        <div class="form-group">
+            <label for="arName">Arabic Name</label>
+            <input type="text" class="form-control" id="arName">
+        </div>
+        <div class="form-group">
+            <label for="enName">English Name</label>
+            <input type="text" class="form-control" id="enName">
+        </div>
+        <div class="form-group">
+            <label  for="EnName">color</label>
+            <select id="color"  class="form-group"><option></option></select>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-primary" id="postBtn">Submit Data</button>
+        </div>
+    </form>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+               $('#color').empty();
+
+            let model = {};
+            $("#postBtn").click(function (e) {
+                e.preventDefault();
+                model.code = $("#code").val();
+                model.arName = $("#arName").val();
+                model.enName = $("#enName").val();
+                model.colorId = $("#color").val();
+                console.log(model)
+                $.ajax({
+                    type: "POST",
+                    url: "/api/items",
+                        headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' 
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(model),
+                    datatype: "Json",
+                    success: function (data) {
+                        alert('data submitted successfully')
+                    }
+                })
+            })
+
+            $.ajax({
+                type: "GET",
+                url: "/api/colors",
+                datatype: "Json",
+                success: function (data) {
+                   
+                    $.each(data, function (index, value) {
+                        $('#color').append('<option value="' + value.id + '">' +
+                            value.colorName + '</option>');
+                    });
+                },
+                error: function (error) {
+                    alert("Error Ajax not working: " + error);
+                }
+            });
+        </script>
+</body>
+</html>

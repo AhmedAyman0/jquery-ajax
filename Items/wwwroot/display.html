@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body>
+    <table class="table table-bordered" id="table">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Arabic Name</th>
+                <th>English Name</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+
+        $.ajax({
+            type: "GET",
+            url: "/api/items",
+            datatype: "Json",
+            success: function (data) {
+                var table = $("#table tbody");
+                $.each(data, function (idx, elem) {
+                    table.append("<tr><td>" + elem.code + "</td><td>" + elem.arabicName + "</td>   <td>" + elem.englishName + "</td></tr>");
+                });
+            },
+            error: function (error) {
+                alert("Error Ajax not working: " + error);
+            }
+        });
+    </script>
+</body>
+</html>
